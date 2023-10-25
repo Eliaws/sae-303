@@ -1,0 +1,113 @@
+# SAÉ 303 - Concevoir des visualisations de données pour le web
+_Les consignes pourront être modifiées._
+
+## Contexte de la SAÉ
+De nos jours, les mots "data" ou "donnée" se réfèrent à l’information dématérialisée capable de circuler à travers un réseau de télécommunication ou informatique.
+Dans un monde où la data se fait de plus en plus présente, l'internaute sollicite des outils et des supports de visualisation qui lui permettent de lire et interpréter correctement des flux d'informations de plus en plus énormes.  
+Ces supports peuvent s'exprimer sous la forme d'une infographie ou encore d'un outil interactif, redoutable outil viral. Ainsi, cette SAE est l'occasion de données vie (et envie) à un jeu de données que vous aurez choisi, parmi ceux triés par nos soins (voir plus bas).
+
+Cette SAÉ sera l'occasion de valider les apprentissages critiques (AC) suivants : 
+
+- AC21.03 | Traiter des données avec des outils statistiques pour faciliter leur analyse et leur exploitation
+- AC23.02 | Définir une iconographie (illustrations, photographies, vidéos)
+- AC23.05 | Réaliser, composer et produire pour une communication plurimédia
+- AC23.06 | Élaborer et produire des animations, des designs sonores, des effets spéciaux, de la visualisation de données ou de la 3D
+- AC24.01 | Produire des pages et applications Web responsives
+- AC24.03 | Intégrer, produire ou développer des interactions riches ou des dispositifs interactifs
+
+Et de mettre en application les connaissances vues dans les ressources suivantes : 
+- R3.09 | Création et design interactif (UI)
+- R3.10 | Culture artistique
+- R3.12 | Développement Front et intégration
+- R3.15 | Représentation et traitement de l’information
+
+Par groupe de 3-4, au sein du même TP (pour des questions logistique), vous devrez, à partir d'un jeu de données que vous aurez choisi, produire **au choix :**
+- Une production graphique (infographie - plusieurs formats attendus ou vidéo en motion design)
+- Une application interactive en javascript
+  - Nécessite du design pour l'apparence. Vous pouvez bien évidemment utiliser tailwindcss
+
+> **La date butoir vous sera remise ultérieurement.**
+
+Étant malheureusement très limité par le temps, vous n'aurez pas le travail de nettoyage de données à effectuer, vous avez à votre disposition des jeux de données propres et très limités en contenu. De ce fait, les sujets seront plus ou moins fermés (surtout pour les jeux de données pour le sujet infographie).
+Ces jeux de données sont facilement explorables avec Excel ou encore LibreOffice Calc.
+
+- [Accéder aux jeux de données proposés](datasets/)
+
+Les jeux de données sont été partagés en deux dossiers : "infographie" et "développement". Ainsi, si vous vous orientez vers le sujet graphique, nous vous invitons fortement à prendre un jeu de données dans le dossier "infographie" et "développement" si vous souhaitez faire le sujet développement. La différence entre les deux types de jeux de données et que les jeux de données orientés "infographie" sont moins denses donc plus faciles à mettre en page pour une une ingographie.
+
+> Note : Vous pouvez tout à fait ajouter des jeux de données externes (et **sourcés**) pour appuyer votre création. N'hésitez pas !
+
+> Pour télécharger les fichiers .csv, .json ou .xlsx, il vous faudra cliquer sur le bouton "Raw" et ensuite faire `ctrl + s` ou `Clic droit > Enregistrer sous`. **Seul les fichiers .csv et .xslx peuvent être ouverts avec Excel sans problèmes.**
+
+> Les jeux de données préfixés par "geo-" sont des jeux de données qui peuvent être exploités dans le cadre du dévéloppement d'une carte interactive.
+
+> Les jeux de données ont des titres relativement explicites, mais si vous avez un doute n'hésitez pas à demander des informations supplémentaires au référent de la SAE
+
+## Application interactive en javascript 
+
+Autre proposition de rendu : l'application interactive en javascript, elle sera l'occasion d'approfondir vos connaissances dans ce langage. Une application interactive utilisant de la donnée peut être un outil redoutable pour communiquer, engager l'internaute. L'engagement a tendance à encore plus fonctionner avec une carte, car tous les utilisateurs peuvent s'y trouver géographiquement.
+
+Si vous souhaitez réaliser une carte interactive, vous pouvez utiliser Google Maps (freemium) ou encore leaflet + OpenStreetMap (gratuit).
+- [Voir tutoriel sur Google Maps](https://developers.google.com/maps/documentation/javascript/overview)
+  - Pensez bien à sélectionner l'onglet "Javascript" pour le code
+
+**Votre jeu de données devra impérativement être chargé,** il faudra donc utiliser l'API `fetch` ([Voir documentation de fetch](https://developer.mozilla.org/fr/docs/Web/API/Fetch_API/Using_Fetch)) pour charger votre jeu de données. Si vous avez le temps, indiquez à l'utilisateur que les données chargent.
+
+> Javascript ne sait pas changer naturellement un fichier .xlsx ou .csv, il faudra donc utiliser l'équivalent au format .json (si le jeu de données que vous voulez utiliser n'existe pas au format .json, demandez-moi, je le convertirai pour vous)
+
+Pour manipuler les données ou les transformer dans le but de les rendre utilisables par [chart.js](https://www.chartjs.org/), vous pouvez utiliser la librairie javascript [lodash](https://lodash.com/docs/4.17.15).
+
+> Vous avez appris à utiliser git. C'est un standard dans le monde du travail, **vous devrez impérativement l'utiliser.**
+
+### Conseils - Application interactive
+N'hésitez pas à vous inspirer du web pour trouver une mise en page ou un design. Vous pourrez trouver des inspirations ici :
+- [Voir carte sur les notes d'hygiène des restaurants de New-York (anglais)](http://archive.nytimes.com/www.nytimes.com/interactive/dining/new-york-health-department-restaurant-ratings-map.html)
+- [Popularité des prénoms](https://dataaddict.fr/prenoms/)
+- [Assiduité des députés Français à l'Assemblée Nationale](https://www.nosdeputes.fr/)
+
+# Votre liste à faire
+  - [x] Lire les consignes
+  - [ ] Trouver votre jeu de données et votre axe de travail (développement ou design)
+  - [ ] Respecter les attentes
+  - [ ] Générer une archive contenant :
+    - [ ] Votre réalisation (app interactive ou infographie ou vidéo motion)
+    - [ ] Lien vers le dépôt sur github (projet développement uniquement)
+
+# FAQ - Foire Aux Questions
+- **J'ai utilisé un jeu de données proposé par la SAE, où trouver les sources ?**
+  
+  A la racine du dossier des jeux de données, il y a un fichier [_liste-sources.ods](./datasets/_liste-sources.ods) qui liste les sources associées à chaque jeu de données. Tous les jeux de données n'ont pas forcément une source.
+  **Attention : Il y a deux onglets (crea et dev) dans le fichier.**
+- **Est-ce que je peux utiliser des jeux de données additionnels ?**
+  
+  Oui, vous pouvez. Toutefois **pensez bien à sourcer ces jeux additionnels.**
+- **J'ai choisi le sujet "infographie" devrais-je également faire du développement ?**
+  
+  Non. Vous devrez faire juste une production visuelle et rien d'autre.
+- **Est-ce que je peux limiter le jeu de données ?**
+  
+  Il est possible d'ometre des données (colonnes et lignes). Néanmoins faites attention à ne pas dénaturer le message que vous réalisez en supprimant des données.
+- **Lors d'autres cours, nous avons eu des devoirs en rapport avec la donnée. Ces devoirs entrent-ils dans la notation de cette SAE ?**
+  
+  Non. Les devoirs que vous avez faits dans d'autres matières concernant la donnée ne sont pas associés à la notation de la SAE. **Ces cours ainsi que ces devoirs sont là pour vous aider à réaliser cette SAE.**
+- **Est-il possible de réaliser ce travail seul(e) ?**
+  
+  Il est possible réaliser cette SAE en solitaire. Cependant, nous vous déconseillons de le faire car en cas d'imprévus qui vous empêchent de travailler dans de saines conditions, il sera très compliqué pour nous de vous noter. A l'inverse être trop nombreux dans un groupe risque de créer trop de flottements dans les tâches à réaliser. Car vous risquez de penser qu'une tierce personne va réaliser une tâche, et à la fin, il n'y aura pas grand-chose.
+- **Dans le sujet de graphisme, il est demandé un format A3 et un autre pour instagram. Doivent-ils être les même images mais de tailles différentes ?**
+  
+  Pas forcément. Si vous devez bel et bien fournir plusieurs formats, vous avez le droit de proposer des contenus différents pour chacun de ces médias, mais pensez bien à respecter la même Direction Artistique (DA) entre ces médias
+- **Puis-je effectuer plusieurs images pour Instagram ?**
+  
+  Oui, vous pouvez. Pensez bien à indiquer l'ordre des images. Vous pouvez le faire dans le nom de l'image, par exemple : image_1, image_2...
+
+- **Est-ce que le choix de l'axe (crea ou dev) est conditionné par le parcours choisi pour le S3 ?**
+  
+  Non. Vous pouvez être en parcours Créa et réaliser une application en javascript si vous le souhaitez.
+
+- **Dois-je impérativement utiliser git pour le projet ?**
+
+  Si vous avez choisi le projet développement, vous êtes obligés, ceci fait partie de la notation finale. Quant à son utilisation pour le sujet créa, elle est facultative, mais nous vous conseillons pour garder un historique de votre projet. 
+
+- **Mon application doit-elle être responsive ?**
+
+  Vous n'êtes pas obligé, néanmoins, ça reste préférable de rendre votre application javascript responsive.

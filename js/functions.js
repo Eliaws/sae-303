@@ -167,8 +167,6 @@ const displayCinema = async () => {
            
         });
 
-
-
         console.log(GraphDatas);
 
         

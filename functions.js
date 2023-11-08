@@ -1,4 +1,4 @@
-const apiEndpoint = 'geo-les_salles_de_cinemas_en_ile-de-france.json';
+const apiEndpoint = 'Consignes-SAE303/Datas/geo-les_salles_de_cinemas_en_ile-de-france.json';
 const display = document.querySelector("#display-data");
 const inputNom = document.querySelector("#input");
 const ChoixDep = document.querySelector("#ChoixDep");

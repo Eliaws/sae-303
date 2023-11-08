@@ -3,6 +3,12 @@ const display = document.querySelector("#display-data");
 const inputNom = document.querySelector("#input");
 const ChoixDep = document.querySelector("#ChoixDep");
 
+
+
+const cinemaData=document.querySelector("[data-cinema]");
+const dataFilmProgramme=document.querySelector("[data-film-programme]");
+const dataEcran= document.querySelector("[data-ecran]");
+
 //Récupération des données du fichier json
 const getData = async () => {
     const res = await fetch(apiEndpoint);
@@ -41,23 +47,68 @@ const displayCinema = async () => {
         return matchesNom && matchesDep && matchesSeats;
     });
     
+/**Ne pas toucher s'il vous plait */ 
+    cinemaData.innerHTML= `
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+             <tr class="text-center">
+                <th>Nom </th>
+                <th>Région </th>
+                <th>Ville </th>
+                <th>Départ... </th>
+                <th>Nbre sièges</th>
+             </tr>
+    ${
+        display.innerHTML = filteredDataCinema.map((object) => {
+            const { nom, region_administrative, commune, dep, fauteuils } = object;
     
-    
-    
+            return `
+               
+              <tr class="fs-6">
+                <td>  ${nom}</td>
+                <td> ${region_administrative}</td>
+                <td> ${commune}</td>
+                <td> ${dep}</td>
+                <td> ${fauteuils}</td>
+              </tr>           
+            `
+        }).join("")
+        
+    }
+    </table>
+    `;
+
+    display.style.display="none";
+/**Ne pas toucher s'il vous plait */
     display.innerHTML = filteredDataCinema.map((object) => {
         const { nom, region_administrative, commune, dep, fauteuils } = object;
 
         return `
-        <div class="container">
-            <p> Nom : ${nom}</p>
-            <p> Région : ${region_administrative}</p>
-            <p> Ville : ${commune}</p>
-            <p> Département : ${dep}</p>
-            <p> Nombre de sièges : ${fauteuils}</p>
-        </div>
-        <hr>
+
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+           
+           <tr class="text-center">
+              <th>Nom</th>
+              <th>Région </th>
+              <th>Ville</th>
+              <th>Département </th>
+              <th>Nombre de sièges </th>
+            </tr>
+          
+          <tr class="fs-6">
+            <td>  ${nom}</td>
+            <td> ${region_administrative}</td>
+            <td> ${commune}</td>
+            <td> ${dep}</td>
+            <td> ${fauteuils}</td>
+          </tr>
+        </table>
+        <br>
+        
         `
     }).join("");
+
+
+
 
 
 
@@ -66,10 +117,18 @@ const displayCinema = async () => {
     // Calcul des données agrégées
     const totalCinemas = filteredDataCinema.length;
     const totalSeats = filteredDataCinema.reduce((total, cinema) => total + cinema.fauteuils, 0);
+    const FilmProgramme=filteredDataCinema.reduce((total, filmProgramme)=>total+filmProgramme.nombre_de_films_programmes
+    , 0);
+    const TotalEcran=filteredDataCinema.reduce((total, Ecran)=>total+Ecran.ecrans
+    , 0);
 
     // Affichage des données agrégées
     document.getElementById("total-cinemas").textContent = totalCinemas;
     document.getElementById("total-seats").textContent = totalSeats;
+    dataFilmProgramme.textContent=FilmProgramme;
+    dataEcran.textContent=TotalEcran;
+
+    console.log(cinema);
 
 }
 

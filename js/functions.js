@@ -8,6 +8,13 @@ const ChoixDep = document.querySelector("#ChoixDep");
 const cinemaData=document.querySelector("[data-cinema]");
 const dataFilmProgramme=document.querySelector("[data-film-programme]");
 const dataEcran= document.querySelector("[data-ecran]");
+const ctx = document.getElementById('myChart');
+
+
+
+/****Variable du graph */
+
+let  GraphDatas=[]; /**Don't touch */
 
 //Récupération des données du fichier json
 const getData = async () => {
@@ -44,7 +51,10 @@ const displayCinema = async () => {
             matchesSeats = eventData.fauteuils >= minSeats;
         }
 
+
         return matchesNom && matchesDep && matchesSeats;
+
+        
     });
     
 /**Ne pas toucher s'il vous plait */ 
@@ -108,19 +118,13 @@ const displayCinema = async () => {
     }).join("");
 
 
-
-
-
-
-    console.log(filteredDataCinema.length);
+    // console.log(filteredDataCinema.length);
 
     // Calcul des données agrégées
     const totalCinemas = filteredDataCinema.length;
     const totalSeats = filteredDataCinema.reduce((total, cinema) => total + cinema.fauteuils, 0);
-    const FilmProgramme=filteredDataCinema.reduce((total, filmProgramme)=>total+filmProgramme.nombre_de_films_programmes
-    , 0);
-    const TotalEcran=filteredDataCinema.reduce((total, Ecran)=>total+Ecran.ecrans
-    , 0);
+    const FilmProgramme=filteredDataCinema.reduce((total, filmProgramme)=>total+filmProgramme.nombre_de_films_programmes, 0);
+    const TotalEcran=filteredDataCinema.reduce((total, Ecran)=>total+Ecran.ecrans, 0);
 
     // Affichage des données agrégées
     document.getElementById("total-cinemas").textContent = totalCinemas;
@@ -129,6 +133,45 @@ const displayCinema = async () => {
     dataEcran.textContent=TotalEcran;
 
     console.log(cinema);
+
+
+        /****Graphisme */
+
+        
+
+        new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: GraphDatas,
+                datasets: [{
+                label: "# Nombres d'écran",
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            }
+        });
+
+         /****Chart js... */
+        
+
+         filteredDataCinema.forEach(element => { 
+
+            GraphDatas.push(element.nom);
+           
+        });
+
+
+
+        console.log(GraphDatas);
+
+        
 
 }
 
@@ -148,4 +191,9 @@ inputNom.addEventListener("input", () => {
 ChoixDep.addEventListener("change", () => {
     displayCinema();
 });
+
+
+
+
+
 

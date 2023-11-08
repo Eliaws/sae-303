@@ -7,14 +7,12 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="js/functions.js" defer></script>
+<link rel="stylesheet" href="css/template.css">
 <script src="js/template.js" defer></script>
 <script src="js/leaflet.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-<link rel="stylesheet" href="css/template.css">
-<style>
-html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script> -->
+<!-- <script src="js/Maps.js" defer></script> -->
+<script src="js/functions.js" defer></script>
 </head>
 <body class="w3-light-grey">
 
@@ -65,9 +63,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <!-- <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Overview</a> -->
-    <a data-select href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-eye fa-fw"></i>  Visualisation basique</a>
+    <a data-select href="index.html" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-eye fa-fw"></i>  Visualisation basique</a>
     <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Traffic</a> -->
-    <a data-select href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-map fa-fw"></i>  Visualisation par carte</a>
+    <a data-select href="maps.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-map fa-fw"></i>  Visualisation par carte</a>
     <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a> -->
     <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a> -->
     <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a> -->
@@ -149,11 +147,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
       <div class="w3-third">
         <h5>Regions</h5>
-        <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
+        <canvas id="myChart"></canvas>
       </div>
     </div>
   </div>
   <hr>
+
   <!-- <div class="w3-container">
     <h5>General Stats</h5>
     <p>New Visitors</p>
@@ -303,7 +302,7 @@ function w3_close() {
   overlayBg.style.display = "none";
 }
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 </body>

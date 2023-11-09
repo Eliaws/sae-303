@@ -14,7 +14,8 @@ const ctx = document.getElementById('myChart');
 
 /****Variable du graph */
 
-let  GraphDatas=[]; /**Don't touch */
+let  GraphDatasNom=[]; /**Don't touch */
+let  GraphDatasEcrans=[];
 
 //Récupération des données du fichier json
 const getData = async () => {
@@ -134,6 +135,21 @@ const displayCinema = async () => {
 
     console.log(cinema);
 
+         /****Chart js... */
+        //Faire un deuxième tableau Nombre d'écran puis l'utiliser lors de la 
+
+         filteredDataCinema.forEach(element => { 
+
+            GraphDatasNom.push(element.nom);
+
+           
+        });
+        filteredDataCinema.forEach(element => { 
+
+            GraphDatasEcrans.push(element.ecrans);
+
+           
+        });
 
         /****Graphisme */
 
@@ -142,10 +158,10 @@ const displayCinema = async () => {
         new Chart(ctx, {
             type: 'polarArea',
             data: {
-                labels: GraphDatas,
+                labels: GraphDatasNom,
                 datasets: [{
                 label: "# Nombres d'écran",
-                data: [12, 19, 3, 5, 2, 3],
+                data: GraphDatasEcrans,
                 borderWidth: 1
                 }]
             },
@@ -158,16 +174,10 @@ const displayCinema = async () => {
             }
         });
 
-         /****Chart js... */
-        
 
-         filteredDataCinema.forEach(element => { 
 
-            GraphDatas.push(element.nom);
-           
-        });
-
-        console.log(GraphDatas);
+        // console.log(GraphDatasNom);
+        console.log(GraphDatasEcrans);
 
         
 

@@ -2,61 +2,50 @@ const apiEndpoint = 'Consignes-SAE303/Datas/geo-les_salles_de_cinemas_en_ile-de-
 const display = document.querySelector("#display-data");
 const inputNom = document.querySelector("#input");
 const ChoixDep = document.querySelector("#ChoixDep");
-
-
+const seatsRange = document.querySelector("#seatsRange");
+const seatsValue = document.querySelector("#seatsValue");
 
 const cinemaData=document.querySelector("[data-cinema]");
 const dataFilmProgramme=document.querySelector("[data-film-programme]");
 const dataEcran= document.querySelector("[data-ecran]");
 const ctx = document.getElementById('myChart');
 
+let GraphDatasNom = []; // Noms de cinéma pour le graphique
+let GraphDatasEcrans = []; // Nombre d'écrans pour le graphique
+let filteredDataCinema = []; //Cinémas filtrés
 
 
-/****Variable du graph */
-
-let  GraphDatasNom=[]; /**Don't touch */
-let  GraphDatasEcrans=[];
-
-//Récupération des données du fichier json
+// Récupération des données du fichier JSON
 const getData = async () => {
     const res = await fetch(apiEndpoint);
     const data = await res.json();
     return data;
-  }
+}
 
-const displayCinema = async () => {
+
+
+//Filtrage des données : (Pour que la fonction filterCinemaData soit utilisée partout dans le code)
+
+const filterCinemaData = async () => {
     let queryNom = inputNom.value.toLowerCase();
     let queryDep = Number(ChoixDep.value);
-    let minSeats = parseInt(seatsRange.value, 10); // Valeur du nombre de sièges
+    let minSeats = parseInt(seatsRange.value, 10);
 
     const cinema = await getData();
 
-    let filteredDataCinema = cinema.filter((eventData) => {
-        if (!queryNom && isNaN(queryDep) && minSeats === 1) {
-            return true; // Retourne toutes les données si aucun filtre n'est sélectionné
-        }
-
-        let matchesNom = true;
-        let matchesDep = true;
-        let matchesSeats = true;
-
-        if (queryNom) {
-            matchesNom = eventData.nom.toLowerCase().includes(queryNom);
-        }
-
-        if (!isNaN(queryDep)) {
-            matchesDep = eventData.dep === queryDep;
-        }
-
-        if (minSeats > 1) {
-            matchesSeats = eventData.fauteuils >= minSeats;
-        }
-
+    return cinema.filter((eventData) => {
+        let matchesNom = !queryNom || eventData.nom.toLowerCase().includes(queryNom);
+        let matchesDep = isNaN(queryDep) || eventData.dep === queryDep;
+        let matchesSeats = minSeats <= eventData.fauteuils;
 
         return matchesNom && matchesDep && matchesSeats;
-
-        
     });
+};
+
+
+// Affichage des données de cinéma
+const displayCinema = async () => {
+    filteredDataCinema = await filterCinemaData();
     
 /**Ne pas toucher s'il vous plait */ 
     cinemaData.innerHTML= `
@@ -133,7 +122,6 @@ const displayCinema = async () => {
     dataFilmProgramme.textContent=FilmProgramme;
     dataEcran.textContent=TotalEcran;
 
-    console.log(cinema);
 
          /****Chart js... */
         //Faire un deuxième tableau Nombre d'écran puis l'utiliser lors de la 
@@ -175,33 +163,63 @@ const displayCinema = async () => {
         });
 
 
-
-        // console.log(GraphDatasNom);
-        console.log(GraphDatasEcrans);
-
-        
-
+    // Mise à jour de la carte avec les marqueurs
+    updateMapMarkers(filteredDataCinema);
+    console.log(filteredDataCinema);
 }
 
+// Mise à jour de la carte avec de nouveaux marqueurs
+const updateMapMarkers = (cinemas) => {
+    markers.clearLayers(); // Efface les marqueurs existants
+
+    cinemas.forEach(function (cinema) {
+        var coordinates = cinema.geo.split(',');
+        var latitude = parseFloat(coordinates[0]);
+        var longitude = parseFloat(coordinates[1]);
+
+        var marker = L.marker([latitude, longitude]);
+        marker.bindPopup(`<b>${cinema.nom}</b><br>${cinema.commune}`);
+        markers.addLayer(marker);
+    });
+
+    markers.addTo(map);
+};
+
+document.addEventListener('DOMContentLoaded', (event) => {
 
 // Mise à jour la valeur affichée pour le nombre de sièges en temps réel
 seatsRange.addEventListener("input", () => {
     seatsValue.textContent = seatsRange.value;
     displayCinema();
+    updateMapMarkers(filteredDataCinema);
 });
 
 displayCinema();
 
 inputNom.addEventListener("input", () => {
     displayCinema();
+    updateMapMarkers(filteredDataCinema);
 });
 
 ChoixDep.addEventListener("change", () => {
     displayCinema();
+    updateMapMarkers(filteredDataCinema);
+});
+
 });
 
 
 
 
+// MAP LEAFLET
 
+var map = L.map('map').setView([48.8566, 2.3522], 10);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
 
+var markers = L.layerGroup().addTo(map); // Groupe de marqueurs
+
+// Afficher les cinémas initiaux
+displayCinema();

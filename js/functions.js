@@ -12,7 +12,7 @@ const ctx = document.getElementById('myChart');
 
 let GraphDatasNom = []; // Noms de cinéma pour le graphique
 let GraphDatasEcrans = []; // Nombre d'écrans pour le graphique
-let filteredDataCinema = []; //Cinémas filtrés
+let filteredDataCinema = []; //Tableau contenant les cinémas filtrés
 
 
 // Récupération des données du fichier JSON
@@ -21,7 +21,6 @@ const getData = async () => {
     const data = await res.json();
     return data;
 }
-
 
 
 //Filtrage des données : (Pour que la fonction filterCinemaData soit utilisée partout dans le code)
@@ -178,7 +177,7 @@ const updateMapMarkers = (cinemas) => {
         var longitude = parseFloat(coordinates[1]);
 
         var marker = L.marker([latitude, longitude]);
-        marker.bindPopup(`<b>${cinema.nom}</b><br>${cinema.commune}`);
+        marker.bindPopup(`<b>${cinema.nom}</b><br>${cinema.programmateur}<br>${cinema.commune}<br>${cinema.adresse}`);
         markers.addLayer(marker);
     });
 
@@ -207,7 +206,6 @@ ChoixDep.addEventListener("change", () => {
 });
 
 });
-
 
 
 

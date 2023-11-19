@@ -22,9 +22,7 @@ const getData = async () => {
     return data;
 }
 
-
 //Filtrage des données : (Pour que la fonction filterCinemaData soit utilisée partout dans le code)
-
 const filterCinemaData = async () => {
     let queryNom = inputNom.value.toLowerCase();
     let queryDep = Number(ChoixDep.value);
@@ -40,6 +38,33 @@ const filterCinemaData = async () => {
         return matchesNom && matchesDep && matchesSeats;
     });
 };
+
+//Mise à jour de la carte 
+
+const updateMapMarkers = async () => {
+    let queryNom = inputNom.value.toLowerCase();
+    let queryDep = Number(ChoixDep.value);
+    let minSeats = parseInt(seatsRange.value, 10);
+
+    const cinema = await getData();
+    filteredDataCinema = cinema.filter((eventData) => {
+        let matchesNom = !queryNom || eventData.nom.toLowerCase().includes(queryNom);
+        let matchesDep = isNaN(queryDep) || eventData.dep === queryDep;
+        let matchesSeats = minSeats <= eventData.fauteuils;
+        return matchesNom && matchesDep && matchesSeats;
+    });
+
+    markers.clearLayers();
+    filteredDataCinema.forEach(cinema => {
+        const [latitude, longitude] = cinema.geo.split(',').map(coord => parseFloat(coord));
+        const marker = L.marker([latitude, longitude]);
+        marker.bindPopup(`<b>${cinema.nom}</b><br>${cinema.programmateur}<br>${cinema.commune}<br>${cinema.adresse}`);
+        markers.addLayer(marker);
+    });
+    markers.addTo(map);
+};
+
+
 
 
 // Affichage des données de cinéma
@@ -107,8 +132,6 @@ const displayCinema = async () => {
     }).join("");
 
 
-    // console.log(filteredDataCinema.length);
-
     // Calcul des données agrégées
     const totalCinemas = filteredDataCinema.length;
     const totalSeats = filteredDataCinema.reduce((total, cinema) => total + cinema.fauteuils, 0);
@@ -125,7 +148,7 @@ const displayCinema = async () => {
          /****Chart js... */
         //Faire un deuxième tableau Nombre d'écran puis l'utiliser lors de la 
 
-         filteredDataCinema.forEach(element => { 
+        filteredDataCinema.forEach(element => { 
 
             GraphDatasNom.push(element.nom);
 
@@ -160,31 +183,21 @@ const displayCinema = async () => {
                 }
             }
         });
+    
 
 
     // Mise à jour de la carte avec les marqueurs
     updateMapMarkers(filteredDataCinema);
-    console.log(filteredDataCinema);
-}
-
-// Mise à jour de la carte avec de nouveaux marqueurs
-const updateMapMarkers = (cinemas) => {
-    markers.clearLayers(); // Efface les marqueurs existants
-
-    cinemas.forEach(function (cinema) {
-        var coordinates = cinema.geo.split(',');
-        var latitude = parseFloat(coordinates[0]);
-        var longitude = parseFloat(coordinates[1]);
-
-        var marker = L.marker([latitude, longitude]);
-        marker.bindPopup(`<b>${cinema.nom}</b><br>${cinema.programmateur}<br>${cinema.commune}<br>${cinema.adresse}`);
-        markers.addLayer(marker);
-    });
-
-    markers.addTo(map);
 };
 
-document.addEventListener('DOMContentLoaded', (event) => {
+// Afficher les cinémas initiaux
+displayCinema();
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await updateMapMarkers();
+    updateChart(GraphDatasNom, GraphDatasEcrans);
+});
+
 
 // Mise à jour la valeur affichée pour le nombre de sièges en temps réel
 seatsRange.addEventListener("input", () => {
@@ -193,7 +206,7 @@ seatsRange.addEventListener("input", () => {
     updateMapMarkers(filteredDataCinema);
 });
 
-displayCinema();
+
 
 inputNom.addEventListener("input", () => {
     displayCinema();
@@ -205,6 +218,8 @@ ChoixDep.addEventListener("change", () => {
     updateMapMarkers(filteredDataCinema);
 });
 
+document.addEventListener('DOMContentLoaded', async () => {
+    await updateMapMarkers();
 });
 
 
@@ -219,5 +234,3 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var markers = L.layerGroup().addTo(map); // Groupe de marqueurs
 
-// Afficher les cinémas initiaux
-displayCinema();
